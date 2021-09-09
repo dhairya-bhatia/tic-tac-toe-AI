@@ -1,4 +1,4 @@
-export function calculateWinner(squares) {
+export const calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],
@@ -15,5 +15,55 @@ export function calculateWinner(squares) {
       return squares[a];
     }
   }
-  return null;
-}
+  // Check for a tie
+  let openSpots = 0;
+  for (let i = 0; i < 9; i++) {
+    if (squares[i] === null) {
+      openSpots++;
+    }
+  }
+  if (openSpots === 0) {
+    return "tie";
+  } else {
+    return null;
+  }
+};
+
+let scores = {
+  X: -10,
+  O: 10,
+  tie: 0,
+};
+
+export const applyMinimax = (board, isMaximizing) => {
+  let result = calculateWinner(board);
+  if (result !== null) {
+    return scores[result];
+  }
+
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 9; i++) {
+      // Checking for available spot
+      if (board[i] === null) {
+        board[i] = "O";
+        let score = applyMinimax(board, false);
+        board[i] = null;
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < 9; i++) {
+      // Checking for available spot
+      if (board[i] === null) {
+        board[i] = "X";
+        let score = applyMinimax(board, true);
+        board[i] = null;
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+};
