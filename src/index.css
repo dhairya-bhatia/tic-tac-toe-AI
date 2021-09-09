@@ -35,6 +35,25 @@ body {
   text-align: center;
 }
 
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  max-height: 400px;
+}
+
+.reset-btn {
+  width: 100px;
+  background-color: #d9534f;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  display: block;
+  font-size: 1rem;
+  border: none;
+  margin: 1rem auto;
+  font-weight: bold;
+}
+
 .container {
   display: flex;
   top: 0;

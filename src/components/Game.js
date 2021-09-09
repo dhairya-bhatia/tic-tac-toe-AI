@@ -40,8 +40,8 @@ const Game = () => {
 
     boardCopy[bestMove] = "O";
     setBoard(boardCopy);
+    setIsAIturn((prevIsAIturn) => !prevIsAIturn);
     setXisNext((prevXisNext) => !prevXisNext);
-    setIsAIturn(false);
   };
 
   const handleClick = (i) => {
@@ -51,27 +51,50 @@ const Game = () => {
     boardCopy[i] = xIsNext ? "X" : "O";
     setBoard(boardCopy);
     setXisNext((prevXisNext) => !prevXisNext);
-    if (isAImode) {
+    // check if there is a winner or a tie
+    winner = calculateWinner(boardCopy);
+
+    if (isAImode && !winner) {
       setIsAIturn((prevIsAIturn) => !prevIsAIturn);
       setTimeout(() => {
         playMove(boardCopy);
       }, 1500);
     }
   };
+
+  const resetGame = () => {
+    if (isAIturn) {
+      return;
+    } else {
+      setBoard(Array(9).fill(null));
+      setXisNext(true);
+      setIsAIturn(false);
+    }
+  };
+
   return (
     <div>
       <h1 className="heading"> Tic Tac Toe !</h1>
       <div className="parent-container">
-        <div className="container">
-          <h2>VS Computer Mode</h2>
-          <label className="switch">
-            <input
-              type="checkbox"
-              checked={isAImode}
-              onChange={() => setIsAImode(!isAImode)}
-            />
-            <div></div>
-          </label>
+        <div className="btn-container">
+          <div className="container">
+            <h2>VS Computer Mode</h2>
+            <label className="switch">
+              <input
+                type="checkbox"
+                checked={isAImode}
+                onChange={() => setIsAImode(!isAImode)}
+              />
+              <div></div>
+            </label>
+          </div>
+          <button
+            type="reset"
+            className="reset-btn"
+            onClick={() => resetGame()}
+          >
+            Reset
+          </button>
         </div>
         <div>
           <Board boxes={board} onClick={handleClick} />
