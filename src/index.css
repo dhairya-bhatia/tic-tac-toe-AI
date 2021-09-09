@@ -29,7 +29,7 @@ body {
   width: 80vw;
 }
 .heading {
-  color: #7fffca;
+  color: #fec260;
   margin-bottom: 3rem;
   margin-top: 1rem;
   text-align: center;
@@ -126,6 +126,15 @@ body {
 }
 
 .winner {
+  display: block;
+  margin: 3rem;
+  color: #7fffca;
+  font-size: 36px;
+}
+
+.bottom-txt {
+  display: block;
   margin: 3rem;
   color: #80bfff;
+  font-size: 28px;
 }

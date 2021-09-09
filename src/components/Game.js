@@ -12,12 +12,26 @@ const Game = () => {
 
   let winner = calculateWinner(board);
 
+  // Print Winner's Name or Tie
   const printWinner = () => {
     if (winner === "tie") {
       return `It's a Tie!`;
     } else {
       return `${winner} Wins!`;
     }
+  };
+  // Prints the player having current turn
+  const checkTurn = () => {
+    if (isAImode) {
+      return xIsNext ? `X's Turn` : `AI is Thinking...`;
+    } else {
+      return xIsNext ? `X's Turn` : `O's Turn`;
+    }
+  };
+
+  const toggleAImode = () => {
+    setIsAImode((prevAImode) => !prevAImode);
+    resetGame();
   };
 
   // AI Player's Move
@@ -44,6 +58,7 @@ const Game = () => {
     setXisNext((prevXisNext) => !prevXisNext);
   };
 
+  // Handles Square Click
   const handleClick = (i) => {
     const boardCopy = [...board];
     if (winner || boardCopy[i] || (isAImode && isAIturn)) return;
@@ -62,6 +77,7 @@ const Game = () => {
     }
   };
 
+  // Handles Reset Button Click
   const resetGame = () => {
     if (isAIturn) {
       return;
@@ -83,7 +99,7 @@ const Game = () => {
               <input
                 type="checkbox"
                 checked={isAImode}
-                onChange={() => setIsAImode(!isAImode)}
+                onChange={toggleAImode}
               />
               <div></div>
             </label>
@@ -98,7 +114,9 @@ const Game = () => {
         </div>
         <div>
           <Board boxes={board} onClick={handleClick} />
-          <h2 className="winner">{winner ? printWinner() : null}</h2>
+          <span className={winner ? "winner" : "bottom-txt"}>
+            {winner ? printWinner() : checkTurn()}
+          </span>
         </div>
       </div>
     </div>
