@@ -1,25 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 // Nested components
 import Board from "./Board";
 // helpers
 import { applyMinimax, calculateWinner } from "../helpers";
 
 const Game = () => {
+  // local state
   const [board, setBoard] = useState(Array(9).fill(null));
   const [xIsNext, setXisNext] = useState(true);
   const [isAImode, setIsAImode] = useState(true);
   const [isAIturn, setIsAIturn] = useState(false);
+  const [winner, setWinner] = useState(null);
 
-  let winner = calculateWinner(board);
+  // Handles Reset Button Click
+  const resetGame = useCallback(() => {
+    if (isAIturn) {
+      return;
+    } else {
+      setBoard(Array(9).fill(null));
+      setXisNext(true);
+      setIsAIturn(false);
+      setWinner(null);
+    }
+  }, [isAIturn]);
+
+  let resultMsg = "";
+
+  // Alert in case of a Win or a Tie
+  useEffect(() => {
+    if (winner) {
+      if (window.confirm(`${resultMsg} Play Again ?`)) {
+        resetGame();
+      }
+    }
+  }, [resultMsg, winner, resetGame]);
 
   // Print Winner's Name or Tie
   const printWinner = () => {
     if (winner === "tie") {
-      return `It's a Tie!`;
+      resultMsg = `It's a Tie!`;
     } else {
-      return `${winner} Wins!`;
+      resultMsg = `${winner} Wins!`;
     }
+    return resultMsg;
   };
+
   // Prints the player having current turn
   const checkTurn = () => {
     if (isAImode) {
@@ -29,6 +54,7 @@ const Game = () => {
     }
   };
 
+  // handles toggle for AI mode button
   const toggleAImode = () => {
     setIsAImode((prevAImode) => !prevAImode);
     resetGame();
@@ -56,6 +82,10 @@ const Game = () => {
     setBoard(boardCopy);
     setIsAIturn((prevIsAIturn) => !prevIsAIturn);
     setXisNext((prevXisNext) => !prevXisNext);
+    if (!winner) {
+      const isWinner = calculateWinner(boardCopy);
+      isWinner && setWinner(isWinner);
+    }
   };
 
   // Handles Square Click
@@ -67,24 +97,14 @@ const Game = () => {
     setBoard(boardCopy);
     setXisNext((prevXisNext) => !prevXisNext);
     // check if there is a winner or a tie
-    winner = calculateWinner(boardCopy);
+    const isWinner = calculateWinner(boardCopy);
+    isWinner && setWinner(isWinner);
 
-    if (isAImode && !winner) {
+    if (isAImode && !isWinner) {
       setIsAIturn((prevIsAIturn) => !prevIsAIturn);
       setTimeout(() => {
         playMove(boardCopy);
       }, 1500);
-    }
-  };
-
-  // Handles Reset Button Click
-  const resetGame = () => {
-    if (isAIturn) {
-      return;
-    } else {
-      setBoard(Array(9).fill(null));
-      setXisNext(true);
-      setIsAIturn(false);
     }
   };
 
@@ -94,7 +114,7 @@ const Game = () => {
       <div className="parent-container">
         <div className="btn-container">
           <div className="container">
-            <h2>VS Computer Mode</h2>
+            <h2>AI Mode</h2>
             <label className="switch">
               <input
                 type="checkbox"
