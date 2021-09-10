@@ -7,10 +7,11 @@ import { applyMinimax, calculateWinner } from "../helpers";
 const Game = () => {
   // local state
   const [board, setBoard] = useState(Array(9).fill(null));
+  const [winner, setWinner] = useState(null);
   const [xIsNext, setXisNext] = useState(true);
   const [isAImode, setIsAImode] = useState(true);
   const [isAIturn, setIsAIturn] = useState(false);
-  const [winner, setWinner] = useState(null);
+  const [isProAImode, setIsProAImode] = useState(true);
 
   // Handles Reset Button Click
   const resetGame = useCallback(() => {
@@ -54,9 +55,11 @@ const Game = () => {
     }
   };
 
-  // handles toggle for AI mode button
-  const toggleAImode = () => {
-    setIsAImode((prevAImode) => !prevAImode);
+  // handles toggle for AI and Pro Mode buttons
+  const toggleMode = (isToggleAIbtn) => {
+    isToggleAIbtn
+      ? setIsAImode((prevmode) => !prevmode)
+      : setIsProAImode((prevMode) => !prevMode);
     resetGame();
   };
 
@@ -68,7 +71,7 @@ const Game = () => {
       // Is the spot available?
       if (gameBoard[i] === null) {
         gameBoard[i] = "O";
-        let score = applyMinimax(gameBoard, false);
+        let score = applyMinimax(gameBoard, false, isProAImode);
         gameBoard[i] = null;
         if (score > bestScore) {
           bestScore = score;
@@ -114,16 +117,31 @@ const Game = () => {
       <div className="parent-container">
         <div className="btn-container">
           <div className="container">
-            <h2>AI Mode</h2>
+            <h2>Play With AI</h2>
             <label className="switch">
               <input
                 type="checkbox"
                 checked={isAImode}
-                onChange={toggleAImode}
+                disabled={isAIturn}
+                onChange={() => toggleMode(true)}
               />
               <div></div>
             </label>
           </div>
+          {isAImode && (
+            <div className="container">
+              <h2>Pro AI </h2>
+              <label className="switch">
+                <input
+                  type="checkbox"
+                  checked={isProAImode}
+                  disabled={isAIturn}
+                  onChange={() => toggleMode(false)}
+                />
+                <div></div>
+              </label>
+            </div>
+          )}
           <button
             type="reset"
             className="reset-btn"
