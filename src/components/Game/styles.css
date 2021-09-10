@@ -1,0 +1,50 @@
+.parent-container {
+  display: flex;
+  width: 80vw;
+}
+.heading {
+  color: #fec260;
+  margin-bottom: 3rem;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 40px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  max-height: 400px;
+}
+
+.reset-btn {
+  width: 100px;
+  background-color: #d9534f;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  display: block;
+  font-size: 1rem;
+  border: none;
+  margin: 1rem auto;
+  font-weight: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  width: 350px;
+}
+
+.winner {
+  display: block;
+  margin: 3rem;
+  color: #7fffca;
+  font-size: 36px;
+}
+
+.bottom-txt {
+  display: block;
+  margin: 3rem;
+  color: #80bfff;
+  font-size: 28px;
+}

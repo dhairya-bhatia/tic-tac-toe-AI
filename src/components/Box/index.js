@@ -1,4 +1,6 @@
 import React from "react";
+// styles
+import "./styles.css";
 
 const Box = ({ value, onClick }) => {
   const boxStyle = value ? `box ${value}` : `box`;
@@ -11,7 +13,7 @@ const Box = ({ value, onClick }) => {
 
 Box.defaultProps = {
   value: null,
-  onClick: () => {},
+  onClick: () => null,
 };
 
 export default Box;

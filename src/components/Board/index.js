@@ -1,6 +1,8 @@
 import React from "react";
 // Nested components
-import Box from "./Box";
+import Box from "components/Box";
+// styles
+import "./styles.css";
 
 const Board = ({ boxes, onClick }) => {
   return (

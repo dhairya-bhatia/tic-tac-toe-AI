@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 // Nested components
-import Board from "./Board";
+import Board from "components/Board";
+// UI components
+import ToggleButton from "components/UI/ToggleButton";
 // helpers
-import { applyMinimax, calculateWinner } from "../helpers";
+import { applyMinimax, calculateWinner } from "helpers";
+// styles
+import "./styles.css";
 
 const Game = () => {
   // local state
@@ -117,29 +121,21 @@ const Game = () => {
       <div className="parent-container">
         <div className="btn-container">
           <div className="container">
-            <h2>Play With AI</h2>
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={isAImode}
-                disabled={isAIturn}
-                onChange={() => toggleMode(true)}
-              />
-              <div></div>
-            </label>
+            <ToggleButton
+              btnTitle={`Play With AI`}
+              checked={isAImode}
+              disabled={isAIturn}
+              handleChange={() => toggleMode(true)}
+            />
           </div>
           {isAImode && (
             <div className="container">
-              <h2>Pro AI </h2>
-              <label className="switch">
-                <input
-                  type="checkbox"
-                  checked={isProAImode}
-                  disabled={isAIturn}
-                  onChange={() => toggleMode(false)}
-                />
-                <div></div>
-              </label>
+              <ToggleButton
+                btnTitle={`Pro AI Mode`}
+                checked={isProAImode}
+                disabled={isAIturn}
+                handleChange={() => toggleMode(false)}
+              />
             </div>
           )}
           <button
