@@ -10,21 +10,21 @@ import "./styles.css";
 
 // Positioning of the Winning Line
 const winningLinePosition = {
-  "012": { top: "28%", left: "36%" },
-  345: { top: "49%", left: "36%" },
-  678: { top: "70%", left: "36%" },
-  "036": { top: "49%", left: "25%", transform: "rotate(90deg)" },
-  147: { top: "49%", left: "36%", transform: "rotate(90deg)" },
-  258: { top: "49%", left: "47.5%", transform: "rotate(90deg)" },
+  "012": { top: "226px", left: "518px" },
+  345: { top: "388px", left: "518px" },
+  678: { top: "550px", left: "518px" },
+  "036": { top: "390px", left: "356px", transform: "rotate(90deg)" },
+  147: { top: "390px", left: "520px", transform: "rotate(90deg)" },
+  258: { top: "390px", left: "682px", transform: "rotate(90deg)" },
   "048": {
-    top: "50%",
-    left: "31.5%",
+    left: "448px",
+    top: "390px",
     transform: "rotate(45deg)",
     width: "590px",
   },
   246: {
-    top: "49.5%",
-    left: "31%",
+    top: "396px",
+    left: "444px",
     transform: "rotate(-45deg)",
     width: "590px",
   },
