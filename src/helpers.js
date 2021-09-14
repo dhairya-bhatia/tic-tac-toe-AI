@@ -1,3 +1,4 @@
+//  Calculates Winner or Tie
 export const calculateWinner = (squares) => {
   const lines = [
     [0, 1, 2],
@@ -12,7 +13,7 @@ export const calculateWinner = (squares) => {
   for (let item of lines) {
     const [a, b, c] = item;
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { gameWinner: squares[a], pattern: `${a}${b}${c}` };
     }
   }
   // Check for a tie
@@ -23,7 +24,7 @@ export const calculateWinner = (squares) => {
     }
   }
   if (openSpots === 0) {
-    return "tie";
+    return { gameWinner: "tie", pattern: null };
   } else {
     return null;
   }
@@ -35,14 +36,15 @@ let scores = {
   tie: 0,
 };
 
+// Minimax algorithm to Calculate Move for the AI
 export const applyMinimax = (board, isMaximizing, isProAImode) => {
   if (!isProAImode) {
     // return a random int b/w 0 to 9 as score
     return Math.floor(Math.random() * 10);
   } else {
-    let result = calculateWinner(board);
-    if (result !== null) {
-      return scores[result];
+    let winnerObj = calculateWinner(board);
+    if (winnerObj) {
+      return scores[winnerObj.gameWinner];
     }
 
     if (isMaximizing) {

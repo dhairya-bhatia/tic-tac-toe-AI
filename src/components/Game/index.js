@@ -8,6 +8,28 @@ import { applyMinimax, calculateWinner } from "helpers";
 // styles
 import "./styles.css";
 
+// Positioning of the Winning Line
+const winningLinePosition = {
+  "012": { top: "28%", left: "36%" },
+  345: { top: "49%", left: "36%" },
+  678: { top: "70%", left: "36%" },
+  "036": { top: "49%", left: "25%", transform: "rotate(90deg)" },
+  147: { top: "49%", left: "36%", transform: "rotate(90deg)" },
+  258: { top: "49%", left: "47.5%", transform: "rotate(90deg)" },
+  "048": {
+    top: "50%",
+    left: "31.5%",
+    transform: "rotate(45deg)",
+    width: "590px",
+  },
+  246: {
+    top: "49.5%",
+    left: "31%",
+    transform: "rotate(-45deg)",
+    width: "590px",
+  },
+};
+
 const Game = () => {
   // local state
   const [board, setBoard] = useState(Array(9).fill(null));
@@ -16,6 +38,7 @@ const Game = () => {
   const [isAImode, setIsAImode] = useState(true);
   const [isAIturn, setIsAIturn] = useState(false);
   const [isProAImode, setIsProAImode] = useState(true);
+  const [winningLineStyles, setWinningLineStyles] = useState(null);
 
   // Handles Reset Button Click
   const resetGame = useCallback(() => {
@@ -26,6 +49,7 @@ const Game = () => {
       setXisNext(true);
       setIsAIturn(false);
       setWinner(null);
+      setWinningLineStyles(null);
     }
   }, [isAIturn]);
 
@@ -90,8 +114,14 @@ const Game = () => {
     setIsAIturn((prevIsAIturn) => !prevIsAIturn);
     setXisNext((prevXisNext) => !prevXisNext);
     if (!winner) {
-      const isWinner = calculateWinner(boardCopy);
-      isWinner && setWinner(isWinner);
+      const winnerObj = calculateWinner(boardCopy);
+      if (winnerObj) {
+        const { pattern } = winnerObj;
+        if (pattern) {
+          setWinningLineStyles(winningLinePosition[pattern]);
+        }
+        setWinner(winnerObj.gameWinner);
+      }
     }
   };
 
@@ -104,10 +134,17 @@ const Game = () => {
     setBoard(boardCopy);
     setXisNext((prevXisNext) => !prevXisNext);
     // check if there is a winner or a tie
-    const isWinner = calculateWinner(boardCopy);
-    isWinner && setWinner(isWinner);
+    const winnerObj = calculateWinner(boardCopy);
+    winnerObj && setWinner(winnerObj.gameWinner);
+    if (winnerObj) {
+      const { pattern } = winnerObj;
+      if (pattern) {
+        setWinningLineStyles(winningLinePosition[pattern]);
+      }
+      setWinner(winnerObj.gameWinner);
+    }
 
-    if (isAImode && !isWinner) {
+    if (isAImode && !winnerObj) {
       setIsAIturn((prevIsAIturn) => !prevIsAIturn);
       setTimeout(() => {
         playMove(boardCopy);
@@ -151,6 +188,9 @@ const Game = () => {
           <span className={winner ? "winner" : "bottom-txt"}>
             {winner ? printWinner() : checkTurn()}
           </span>
+          {winner && winner !== "tie" && (
+            <div style={winningLineStyles} className={"winningLine"}></div>
+          )}
         </div>
       </div>
     </div>

@@ -48,3 +48,11 @@
   color: #80bfff;
   font-size: 28px;
 }
+
+.winningLine {
+  display: block;
+  position: absolute;
+  background-color: #7fffca;
+  width: 450px;
+  height: 4px;
+}
